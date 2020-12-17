@@ -18,7 +18,9 @@ knitr::opts_chunk$set(
 ```{r setup, include = FALSE}
 library(Project2)
 ```
-## Installation instructions
+# Introduction
+This is a R package which implements T-test, Linear regression, K-Neighrest neighbors with cross validation, and Random Forest with cross validation. As a part of this, you also have access to the gapminder data set (check documentation for more information).
+# Installation instructions
 Use the following command to install the package:
 
 ```{r, eval = FALSE}
@@ -35,7 +37,7 @@ help(package = "Project2", help_type = "html")
 # view in browser
 utils::browseVignettes(package = "Project2")
 ```
-## k-Neighrest Neighbours Tutorial using PalmerPenguins
+# k-Neighrest Neighbours Tutorial using PalmerPenguins
 ```{r, include = FALSE}
 library(dplyr)
 library(class)
@@ -90,3 +92,56 @@ df_table <- data.frame("k_nn" = c(1:10),
 kable_styling(kable(df_table))
 ```
 **Based on CV error and Misclassification Error** the model with 1 neighrest neighbor and 5 fold cross validation is superior, as the errors are lower. 
+
+**In Practice:** In practice, I would recommend using a model with sufficient cv folds, but as for choosing a proper k for k-Neighres Neighbors, it's best to think about the actual problem. Specific domain information may come in handy here. The process of cross validation consists of dividing the data set to several sets randomly, and in each iteration use all the folds except for 1 in order to train the model, and use that 1 for testing. Cross-validation helps with avoiding overfitting. K-NN is a classification algorithm, where each point is classified by its K closest points. 
+
+
+# Random Forest (my_rf_cv)
+**Required package**
+```{r, eval = FALSE}
+library(randomForest)
+library(ggplot2)
+```
+```{r, include = FALSE}
+library(randomForest)
+library(ggplot2)
+```
+```{r}
+# matrix to hold all results
+results <- matrix(NA, nrow = 30, ncol = 3)
+# counter to keep track of columns in matrix
+counter <- 1
+# iterating through 3 k values
+for (k in c(2, 5, 10)) {
+  # numeric holding MSE errors
+  mse_vector <- numeric(30)
+  for (i in 1:30) {
+    mse <- my_rf_cv(k)
+    mse_vector[i] <- mse
+  }
+  # populate matrix
+  results[, counter] <- mse_vector
+  counter <- counter + 1
+  # create title for plot
+  title <- paste("my_rf_cv, K =", k, sep = " ")
+  # convert to data frame
+  df <- data.frame("MSE" = mse_vector)
+  # create box plot
+  plt <- ggplot(data = df, aes(x = "", y = MSE)) + 
+          geom_boxplot(notch=FALSE) + 
+          labs(title = title) + 
+          xlab("")
+  print(plt)
+}
+# means and standard deviations 
+means <- c(mean(results[, 1]), mean(results[, 2]), mean(results, 3))
+stds <- c(sd(results[, 1]), sd(results[, 2]), sd(results[, 3]))
+# producing the table
+df_table <- data.frame("k" = c(2, 5, 10),
+                       "mean" = means,
+                       "std" = stds)
+kable_styling(kable(df_table))
+
+```
+
+Based on these results, we can see that a random forest with 5 fold cross validation works better than random forest with 2 fold cross validation. But the difference between 5 fold and 10 fold cross validation is little. Mean squared error of 5 fold cross validations is a little lower (the mean), but its standard deviation is higher, which indicates a trade-off between the two. In general, we can say that higher k results in less error and standard deviation. 
