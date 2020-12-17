@@ -15,6 +15,78 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, include = FALSE}
 library(Project2)
 ```
+## Installation instructions
+Use the following command to install the package:
+
+```{r, eval = FALSE}
+devtools::install_github("Ali-Jahan/Project2", build_vignettes = TRUE, build_opts = c())
+```
+Load the package using:
+```{r, eval = FALSE}
+library(Project2)
+```
+Use the following to load the vignette:
+```{r, eval = FALSE}
+# View the html
+help(package = "Project2", help_type = "html")
+# view in browser
+utils::browseVignettes(package = "Project2")
+```
+## k-Neighrest Neighbours Tutorial using PalmerPenguins
+```{r, include = FALSE}
+library(dplyr)
+library(class)
+library(kableExtra)
+library(palmerpenguins)
+```
+**Load the Libraries:**
+```{r, eval = FALSE} 
+library(dplyr)
+library(class)
+library(kableExtra)
+library(palmerpenguins)
+```
+**Using my_knn_cv with 5 cv folds and 1 to 10 neighrest neighbors**
+```{r}
+# data set 
+data(package = "palmerpenguins")
+# set random seed for reproducibility 
+set.seed(1234)
+# omit NAs
+penguins <- na.omit(penguins)
+# constructing the input data frame using only the 
+# columns of interest
+train_ <- data.frame("bill_length_mm" = penguins$bill_length_mm, 
+                     "bill_depth_mm" = penguins$bill_depth_mm, 
+                     "flipper_length_mm" = penguins$flipper_length_mm,
+                     "body_mass_g" = penguins$body_mass_g)
+# constructing the true value of class data
+cl_ <- data.frame("species" = penguins$species)
+# vector for cv errors
+cv_errors <- numeric(10)
+# vector for misclassification errors
+mc_errors <- numeric(10)
+# 5 fold cross validation
+k_cv = 5
+# iterate k_nn from 1 to 10 and record results
+for (i in 1:10) {
+  output <- my_knn_cv(train_, cl_, i, k_cv)
+  cv_errors[i] <- output$cv_err
+  mc_error <- sum(output$class != cl_[, 1]) / nrow(cl_)
+  mc_errors[i] <- mc_error
+}
+# using the function with k_cv = 5 and k_nn = 5
+output_k_5 <- my_knn_cv(train_, cl_, 5, 5)
+# misclassification error for class vs true (k_nn = 5)
+misclass_5 <- sum(output_k_5$class != cl_[, 1]) / nrow(cl_)
+misclass_5
+# producing the table
+df_table <- data.frame("k_nn" = c(1:10),
+                       "cv_error" = cv_errors,
+                       "misclassification_error" = mc_errors)
+kable_styling(kable(df_table))
+```
+**Based on CV error and Misclassification Error** the model with 1 neighrest neighbor and 5 fold cross validation is superior, as the errors are lower. 

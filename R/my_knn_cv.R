@@ -6,14 +6,29 @@
 #' @param cl Data frame of the true class values of training data.
 #' @param k_nn Numeric input indicating number of neighbors
 #' @param k_cv Numeric input indicating the number of folds
-#' @keywords knn
+#' @keywords prediction
 #'
 #' @return List object with \code{class} as a vector of predicted class
 #'   for all observations, and \code{cv_err} as a numeric with the
 #'   cross-validation misclassification error
 #'
 #' @examples
-#' my_knn_cv(train_df, class_df, 1, 5)
+#' library(dplyr)
+#' library(class)
+#' library(palmerpenguins)
+#' # set random seed for reproducibility
+#' set.seed(1234)
+#' # omit NAs
+#' penguins <- na.omit(penguins)
+#' # constructing the input data frame using only the
+#' # columns of interest
+#' train_ <- data.frame("bill_length_mm" = penguins$bill_length_mm,
+#'                     "bill_depth_mm" = penguins$bill_depth_mm,
+#'                     "flipper_length_mm" = penguins$flipper_length_mm,
+#'                     "body_mass_g" = penguins$body_mass_g)
+#'                     # constructing the true value of class data
+#'                     cl_ <- data.frame("species" = penguins$species)
+#' my_knn_cv(train_, cl_, 1, 5)
 #'
 #' @export
 my_knn_cv <- function(train, cl, k_nn, k_cv) {
