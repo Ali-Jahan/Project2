@@ -22,6 +22,7 @@
 #'
 #' @export
 my_rf_cv <- function(k) {
+  penguins <- na.omit(penguins)
   # constructing the input data frame using only the
   # columns of interest
   train <- data.frame(body_mass_g = penguins$body_mass_g,
