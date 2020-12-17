@@ -5,9 +5,17 @@ output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Project2 Tutorial}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\Vignett
+  eEncoding{UTF-8}
 ---
-
+```{r, include = FALSE}
+library(dplyr)
+library(class)
+library(kableExtra)
+library(palmerpenguins)
+library(randomForest)
+library(ggplot2)
+```
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -71,16 +79,26 @@ my_t.test(test_data, alternative = "greater", mu)
 
 # Linear Model Fitting
 
-In this section, we will demonstrate a regression using the \code{lifeExp} as response, and \code{gdpPercap} and \code{continent} as explanatory.  
+In this section, we will demonstrate a regression using gapminder's \code{lifeExp} as response, and \code{gdpPercap} and \code{continent} as explanatory.  
+
+```{r}
+# define response and explanatory
+y <- my_gapminder$lifeExp
+x1 <- my_gapminder$gdpPercap
+x2 <- my_gapminder$continent
+# data frame for the function input
+df <- data.frame("lifeExp" = y, "gdpPercap" = x1, "continent" = x2)
+# define formula
+formula <- (lifeExp ~ gdpPercap + continent)
+# perform linear model fitting
+result <- my_lm(df, formula)
+result$coefficients
+```
+**gdpPercap Coefficient** displayed above is very small, suggesting that gdp per capita is not a good estimator (predictor) for life expectancy (gdpPercap doesn't cause change in life expectancy).
 
 
 # k-Neighrest Neighbours Tutorial using PalmerPenguins
-```{r, include = FALSE}
-library(dplyr)
-library(class)
-library(kableExtra)
-library(palmerpenguins)
-```
+
 ##Load the Libraries:**
 ```{r, eval = FALSE} 
 library(dplyr)
@@ -139,10 +157,7 @@ kable_styling(kable(df_table))
 library(randomForest)
 library(ggplot2)
 ```
-```{r, include = FALSE}
-library(randomForest)
-library(ggplot2)
-```
+
 ```{r}
 # matrix to hold all results
 results <- matrix(NA, nrow = 30, ncol = 3)

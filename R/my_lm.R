@@ -48,3 +48,5 @@ my_lm <- function(data, formula) {
                       "std_error" = std_error)
   return(output_list)
 }
+
+
