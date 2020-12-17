@@ -1,0 +1,20 @@
+---
+title: "Project 2: Project2 Tutorial"
+author: "Ali Jahangirnezhad"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Project2 Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Project2)
+```
