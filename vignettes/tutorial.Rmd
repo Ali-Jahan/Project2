@@ -37,6 +37,43 @@ help(package = "Project2", help_type = "html")
 # view in browser
 utils::browseVignettes(package = "Project2")
 ```
+
+# T-test
+Retrieving data:
+```{r}
+test_data <- my_gapminder$lifeExp
+mu <- 60
+```
+## Performing T-tests, interpretting results with $\alpha = 0.05$
+## two.sided
+$H_0 : \mu = 60,$
+$H_a : \mu \neq 60$
+```{r}
+my_t.test(test_data, alternative = "two.sided", mu)
+```
+**Interpretation:** There is not enough evidence to reject the null hypothesis, which means there is NO evidence to support the claim that the mean is NOT 60.
+
+## Less
+$H_0 : \mu = 60,$
+$H_a : \mu < 60$
+```{r}
+my_t.test(test_data, alternative = "less", mu)
+```
+**Interpretation:** There is enough evidence to reject the null hypothesis in favor of the alternative, which means there IS enough evidence to say the mean of the data is less than 60.
+
+## Greater
+$H_0 : \mu = 60,$
+$H_a : \mu > 60$
+```{r}
+my_t.test(test_data, alternative = "greater", mu)
+```
+**Interpretation:** There is not enough evidence to reject the null hypothesis, which means there is NO evidence that the mean is greater than 60. 
+
+# Linear Model Fitting
+
+In this section, we will demonstrate a regression using the \code{lifeExp} as response, and \code{gdpPercap} and \code{continent} as explanatory.  
+
+
 # k-Neighrest Neighbours Tutorial using PalmerPenguins
 ```{r, include = FALSE}
 library(dplyr)
@@ -44,14 +81,14 @@ library(class)
 library(kableExtra)
 library(palmerpenguins)
 ```
-**Load the Libraries:**
+##Load the Libraries:**
 ```{r, eval = FALSE} 
 library(dplyr)
 library(class)
 library(kableExtra)
 library(palmerpenguins)
 ```
-**Using my_knn_cv with 5 cv folds and 1 to 10 neighrest neighbors**
+##Using my_knn_cv with 5 cv folds and 1 to 10 neighrest neighbors
 ```{r}
 # data set 
 data(package = "palmerpenguins")

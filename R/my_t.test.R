@@ -1,31 +1,25 @@
-# Function: my_t.test, implements a t-test
-# Input:    x     : Numeric vector
-#           alternative : the mode for t test (two sided, lesser, greater)
-#           mu: Numeric of length 1
-# Output:   returns a List with following components:
-#           test stat, degree of freedom, alternative, p value
-
 #' T hypothesis test.
 #'
 #' This function implements one sided and two sided T hypothesis tests.
 #'
-#' @param k Numeric input indicating number of folds in cross validation.
-#' @keywords prediction
+#' @param x Numeric input of the data set.
+#' @param alternative String input indicating whether the hypothesis is "less", "greater", or "two-sided".
+#' @param mu Numeric indicating the mean (mu) that is being tested against.
+#' @keywords inference
 #'
-#' @return Numeric with cross validation error of performing random forest,
-#'   using \code{k} folds cross validation.
+#' @return List including \code{test_stat}, \code{df} for degree of freedom, \code{alternative},
+#'   and \code{p_val} of T hypothesis test.
 #'
 #' @examples
-#' library(randomForest)
-#' library(dplyr)
-#' library(class)
-#' library(palmerpenguins)
-#' # set random seed for reproducibility
 #' set.seed(1234)
-#' # omit NAs
-#' penguins <- na.omit(penguins)
-#' # use function
-#' my_rf_cv(5)
+#' # some test data
+#' test_data <- rnorm(100, 0, 1)
+#' # one sided less
+#' my_t.test(test_data, alternative = "less", mu = 0)
+#' # one sided greater
+#' my_t.test(test_data, alternative = "greater", mu = 0)
+#' # two sided
+#' my_t.test(test_data, alternative = "two.sided", mu = 0)
 #'
 #' @export
 my_t.test <- function(x, alternative, mu) {

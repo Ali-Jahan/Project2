@@ -1,6 +1,6 @@
 #' Random Forest Cross-Validation
 #'
-#' This function implements the Random Forest function for penguins data set, with cross validation
+#' This function implements the Random Forest function for penguins data set, with cross validation.
 #'
 #' @param k Numeric input indicating number of folds in cross validation.
 #' @keywords prediction

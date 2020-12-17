@@ -14,7 +14,7 @@ Numeric with cross validation error of performing random forest,
 using \code{k} folds cross validation.
 }
 \description{
-This function implements the Random Forest function for penguins data set, with cross validation
+This function implements the Random Forest function for penguins data set, with cross validation.
 }
 \examples{
 library(randomForest)
